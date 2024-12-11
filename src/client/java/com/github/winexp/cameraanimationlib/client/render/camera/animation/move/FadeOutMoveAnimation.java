@@ -65,7 +65,8 @@ public class FadeOutMoveAnimation extends MoveAnimation {
 
     @Override
     public boolean shouldStop() {
-        return this.pos.distanceTo(this.getTargetPos()) <= 0.1 && Math.sqrt(this.rotation.distanceSquared(this.getTargetRotation())) <= 0.1;
+        if (this.getStartRotation() != null && Math.sqrt(this.rotation.distanceSquared(this.getTargetRotation())) > 0.1) return false;
+        return this.pos.distanceTo(this.getTargetPos()) <= 0.1;
     }
 
     @Override

@@ -8,4 +8,8 @@ public class ModMathHelper {
         return new Vec2f(MathHelper.lerpAngleDegrees(delta, from.x, to.x),
                 MathHelper.lerpAngleDegrees(delta, from.y, to.y));
     }
+
+    public static double easeInOut(double delta, double speed) {
+        return -(Math.cos(Math.PI * delta * speed) - 1) / 2;
+    }
 }
