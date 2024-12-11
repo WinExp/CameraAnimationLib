@@ -14,6 +14,10 @@ public class CombineAnimation implements Animation {
         this.animations = ImmutableList.copyOf(animations);
     }
 
+    public ImmutableList<Animation> getAnimations() {
+        return this.animations;
+    }
+
     @Nullable
     public Animation getCurrentAnimation() {
         return this.index < this.animations.size() ? this.animations.get(this.index) : null;
