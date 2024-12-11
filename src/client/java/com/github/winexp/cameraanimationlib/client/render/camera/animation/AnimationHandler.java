@@ -1,11 +1,13 @@
-package com.github.winexp.cameraanimationlib.client.render.camera;
+package com.github.winexp.cameraanimationlib.client.render.camera.animation;
 
-public interface CameraAddon {
-    <T extends Animation> T getAnimation();
+public interface AnimationHandler {
+    Animation cameraAnimationLib$getAnimation();
 
-    boolean isAnimating();
+    boolean cameraAnimationLib$isAnimating();
 
-    <T extends Animation> void startAnimation(T animation);
+    void cameraAnimationLib$startAnimation(Animation animation);
 
-    void stopAnimation();
+    void cameraAnimationLib$stopAnimation();
+
+    void cameraAnimationLib$tick();
 }

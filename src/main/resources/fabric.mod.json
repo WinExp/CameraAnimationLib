@@ -17,6 +17,7 @@
       "com.github.winexp.cameraanimationlib.CameraAnimationLib"
     ]
   },
+  "accessWidener": "cameraanimationlib.accesswidener",
   "mixins": [
     "cameraanimationlib.mixins.json",
     {

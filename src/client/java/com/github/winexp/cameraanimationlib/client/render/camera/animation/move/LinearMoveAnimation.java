@@ -1,4 +1,4 @@
-package com.github.winexp.cameraanimationlib.client.render.camera.animation;
+package com.github.winexp.cameraanimationlib.client.render.camera.animation.move;
 
 import com.github.winexp.cameraanimationlib.client.util.ModMathHelper;
 import net.minecraft.client.render.Camera;
@@ -63,7 +63,10 @@ public class LinearMoveAnimation extends MoveAnimation {
         this.prevPos = this.pos;
         this.pos = this.getStartPos().lerp(this.getTargetPos(), delta);
         this.prevRotation = this.rotation;
-        if (this.getTargetRotation() != null) this.rotation = ModMathHelper.lerp(delta, this.getStartRotation(), this.getTargetRotation());
+        if (this.getTargetRotation() != null) {
+            assert this.getStartRotation() != null;
+            this.rotation = ModMathHelper.lerp(delta, this.getStartRotation(), this.getTargetRotation());
+        }
         this.ready = true;
     }
 

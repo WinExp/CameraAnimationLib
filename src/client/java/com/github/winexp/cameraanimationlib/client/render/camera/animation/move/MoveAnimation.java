@@ -1,7 +1,9 @@
-package com.github.winexp.cameraanimationlib.client.render.camera.animation;
+package com.github.winexp.cameraanimationlib.client.render.camera.animation.move;
 
+import com.github.winexp.cameraanimationlib.client.render.camera.animation.Animation;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class MoveAnimation implements Animation {
     private final Vec3d startPos;
@@ -24,10 +26,12 @@ public abstract class MoveAnimation implements Animation {
         return this.targetPos;
     }
 
+    @Nullable
     public final Vec2f getStartRotation() {
         return this.startRotation;
     }
 
+    @Nullable
     public final Vec2f getTargetRotation() {
         return this.targetRotation;
     }

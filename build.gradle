@@ -13,6 +13,8 @@ base {
 loom {
     splitEnvironmentSourceSets()
 
+    accessWidenerPath = file("src/main/resources/cameraanimationlib.accesswidener")
+
     mods {
         "cameraanimationlib" {
             sourceSet sourceSets.main

@@ -4,8 +4,7 @@
   "package": "com.github.winexp.cameraanimationlib.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CameraInvoker",
-    "test_CameraMixin"
+    "CameraMixin"
   ],
   "injectors": {
     "defaultRequire": 1

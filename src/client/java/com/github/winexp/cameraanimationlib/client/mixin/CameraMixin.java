@@ -3,7 +3,6 @@ package com.github.winexp.cameraanimationlib.client.mixin;
 import com.github.winexp.cameraanimationlib.client.render.camera.animation.Animation;
 import com.github.winexp.cameraanimationlib.client.render.camera.animation.AnimationHandler;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
-public class test_CameraMixin implements AnimationHandler {
+public class CameraMixin implements AnimationHandler {
     @Shadow
     private boolean thirdPerson;
 

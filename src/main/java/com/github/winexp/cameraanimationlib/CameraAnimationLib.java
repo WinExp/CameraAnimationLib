@@ -6,5 +6,6 @@ public class CameraAnimationLib implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
     }
 }
