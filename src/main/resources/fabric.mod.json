@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "cameraanimationlib",
+  "version": "${version}",
+  "name": "CameraAnimationLib",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/cameraanimationlib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.github.winexp.cameraanimationlib.client.CameraAnimationLibClient"
+    ],
+    "main": [
+      "com.github.winexp.cameraanimationlib.CameraAnimationLib"
+    ]
+  },
+  "mixins": [
+    "cameraanimationlib.mixins.json",
+    {
+      "config": "cameraanimationlib.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
