@@ -6,11 +6,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
-public class CombineAnimation implements Animation {
+public class SequenceAnimation implements Animation {
     private final ImmutableList<Animation> animations;
     private int index = 0;
 
-    public CombineAnimation(Collection<Animation> animations) {
+    public SequenceAnimation(Collection<Animation> animations) {
         this.animations = ImmutableList.copyOf(animations);
     }
 

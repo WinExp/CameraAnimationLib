@@ -1,38 +1,37 @@
 package com.github.winexp.cameraanimationlib.client.render.camera.animation.move;
 
 import com.github.winexp.cameraanimationlib.client.render.camera.animation.Animation;
-import net.minecraft.util.math.Vec2f;
+import net.minecraft.client.render.Camera;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class MoveAnimation implements Animation {
-    private final Vec3d startPos;
-    private final Vec3d targetPos;
-    private final Vec2f startRotation;
-    private final Vec2f targetRotation;
+    private final Vec3d from;
+    private final Vec3d to;
 
-    protected MoveAnimation(Vec3d startPos, Vec3d targetPos, Vec2f startRotation, Vec2f targetRotation) {
-        this.startPos = startPos;
-        this.targetPos = targetPos;
-        this.startRotation = startRotation;
-        this.targetRotation = targetRotation;
+    protected MoveAnimation(Vec3d from, Vec3d to) {
+        this.from = from;
+        this.to = to;
     }
 
-    public final Vec3d getStartPos() {
-        return this.startPos;
+    public final Vec3d getFrom() {
+        return this.from;
     }
 
-    public final Vec3d getTargetPos() {
-        return this.targetPos;
+    public final Vec3d getTo() {
+        return this.to;
     }
 
-    @Nullable
-    public final Vec2f getStartRotation() {
-        return this.startRotation;
+    @Override
+    public void update(Camera camera, float tickDelta) {
+        camera.setPos(this.getPrevPos().lerp(this.getNextPos(), tickDelta));
     }
 
-    @Nullable
-    public final Vec2f getTargetRotation() {
-        return this.targetRotation;
+    @Override
+    public boolean shouldRenderSelfEntity() {
+        return true;
     }
+
+    protected abstract Vec3d getPrevPos();
+
+    protected abstract Vec3d getNextPos();
 }

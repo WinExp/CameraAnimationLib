@@ -25,7 +25,7 @@ public class CameraMixin implements AnimationHandler {
 
     @Unique
     private void ensureIsOnThread() {
-        if (!MinecraftClient.getInstance().isOnThread()) throw new IllegalStateException("Method is accessed by non-rendering thread");
+        if (!MinecraftClient.getInstance().isOnThread()) throw new IllegalStateException("Method is called by non-rendering thread");
     }
 
     @Inject(method = "update", at = @At("RETURN"))
@@ -33,7 +33,6 @@ public class CameraMixin implements AnimationHandler {
         if (this.animation != null) {
             this.animation.update((Camera) (Object) this, tickDelta);
             this.thirdPerson = this.animation.shouldRenderSelfEntity();
-            if (this.animation.shouldStop()) this.cameraAnimationLib$stopAnimation();
         }
     }
 
@@ -50,7 +49,7 @@ public class CameraMixin implements AnimationHandler {
     @Override
     public void cameraAnimationLib$startAnimation(Animation animation) {
         this.ensureIsOnThread();
-        if (this.animation != null && this.animation != animation ) throw new IllegalStateException("Duplicate animation");
+        if (this.animation != null && this.animation != animation ) throw new IllegalStateException("There is already an animation");
         this.animation = animation;
     }
 

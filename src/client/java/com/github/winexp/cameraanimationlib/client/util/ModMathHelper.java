@@ -9,7 +9,7 @@ public class ModMathHelper {
                 MathHelper.lerpAngleDegrees(delta, from.y, to.y));
     }
 
-    public static double easeInOut(double delta, double speed) {
-        return -(Math.cos(Math.PI * delta * speed) - 1) / 2;
+    public static float easeInOutSine(float progress) {
+        return -(MathHelper.cos(MathHelper.PI * progress) - 1) / 2;
     }
 }
