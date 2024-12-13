@@ -14,6 +14,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.PosArgument;
 import net.minecraft.command.argument.Vec3ArgumentType;
@@ -34,20 +35,29 @@ public class CameraCommand implements ClientCommandRegistrationCallback {
                 .then(argument("pos", Vec3ArgumentType.vec3())
                         .then(argument("moveTime", IntegerArgumentType.integer(1))
                                 .then(argument("totalTime", IntegerArgumentType.integer(1)).executes(context -> this.executeMove(context, "linear")))));
-        var cEaseSine = literal("easeSine")
+        var cEaseInSine = literal("easeInSine")
                 .then(argument("pos", Vec3ArgumentType.vec3())
                         .then(argument("moveTime", IntegerArgumentType.integer(1))
-                                .then(argument("totalTime", IntegerArgumentType.integer(1)).executes(context -> this.executeMove(context, "easeSine")))));
-        var cPosition = literal("position").then(cLinear).then(cEaseSine);
+                                .then(argument("totalTime", IntegerArgumentType.integer(1)).executes(context -> this.executeMove(context, "easeInSine")))));
+        var cEaseOutSine = literal("easeOutSine")
+                .then(argument("pos", Vec3ArgumentType.vec3())
+                        .then(argument("moveTime", IntegerArgumentType.integer(1))
+                                .then(argument("totalTime", IntegerArgumentType.integer(1)).executes(context -> this.executeMove(context, "easeOutSine")))));
+        var cEaseInOutSine = literal("easeInOutSine")
+                .then(argument("pos", Vec3ArgumentType.vec3())
+                        .then(argument("moveTime", IntegerArgumentType.integer(1))
+                                .then(argument("totalTime", IntegerArgumentType.integer(1)).executes(context -> this.executeMove(context, "easeInOutSine")))));
+        var cPosition = literal("position").then(cLinear).then(cEaseInSine).then(cEaseOutSine).then(cEaseInOutSine);
         dispatcher.register(cRoot.then(cStop).then(cPosition).then(cTest));
     }
 
     private int executeTest(CommandContext<FabricClientCommandSource> context) {
         Vec3d pos = context.getArgument("pos", PosArgument.class).toAbsolutePos(context.getSource().getPlayer().getCommandSource());
+        ClientPlayerEntity player = context.getSource().getPlayer();
         Animation animation = new SegmentAnimation.Builder()
-                .add(new InterpolationSegment(40, ModMathHelper::easeInOutSine, context.getSource().getPlayer().getEyePos(), pos.add(0, 0, 5), new Vec2f(-45, 0), new Vec2f(0, 90)))
-                .add(new InterpolationSegment(40, ModMathHelper::easeInOutSine, pos.add(0, 0, 5), pos, new Vec2f(0, 90), new Vec2f(45, 180)))
-                .add(new EmptySegment(40))
+                .add(new InterpolationSegment(30, ModMathHelper::easeInSine, player.getEyePos(), pos.add(2, -2, -2), ModMathHelper.swap(player.getRotationClient()), new Vec2f(45, -45)))
+                .add(new InterpolationSegment(30, ModMathHelper::easeOutSine, pos.add(2, -2, -2), pos.add(-2, 2, 2), new Vec2f(45, -45), new Vec2f(-136, 45)))
+                .add(new EmptySegment(30))
                 .build();
         Animator.INSTANCE.enqueue(animation);
 
@@ -60,7 +70,9 @@ public class CameraCommand implements ClientCommandRegistrationCallback {
         int totalTime = IntegerArgumentType.getInteger(context, "totalTime");
         Animation animation = switch (type) {
             case "linear" -> new LinearMoveAnimation(context.getSource().getPlayer().getEyePos(), pos, moveTime, totalTime);
-            case "easeSine" -> new EaseSineMoveAnimation(context.getSource().getPlayer().getEyePos(), pos, moveTime, totalTime);
+            case "easeInSine" -> new EaseSineMoveAnimation(context.getSource().getPlayer().getEyePos(), pos, moveTime, totalTime, EaseSineMoveAnimation.Type.EASE_IN);
+            case "easeOutSine" -> new EaseSineMoveAnimation(context.getSource().getPlayer().getEyePos(), pos, moveTime, totalTime, EaseSineMoveAnimation.Type.EASE_OUT);
+            case "easeInOutSine" -> new EaseSineMoveAnimation(context.getSource().getPlayer().getEyePos(), pos, moveTime, totalTime, EaseSineMoveAnimation.Type.EASE_IN_OUT);
             default -> throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
         };
         Animator.INSTANCE.enqueue(animation);

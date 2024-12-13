@@ -19,15 +19,11 @@ public class Animator {
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             if (client.gameRenderer.getCamera().isReady()) {
-                this.handler.cameraAnimationLib$tick();
-                if (!this.handler.cameraAnimationLib$isAnimating() && !this.animationQueue.isEmpty())
-                    this.handler.cameraAnimationLib$startAnimation(this.animationQueue.poll());
-            }
-        });
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.gameRenderer.getCamera().isReady()) {
                 Animation animation = this.handler.cameraAnimationLib$getAnimation();
                 if (animation != null && animation.shouldStop()) this.handler.cameraAnimationLib$stopAnimation();
+                if (!this.handler.cameraAnimationLib$isAnimating() && !this.animationQueue.isEmpty())
+                    this.handler.cameraAnimationLib$startAnimation(this.animationQueue.poll());
+                this.handler.cameraAnimationLib$tick();
             }
         });
     }

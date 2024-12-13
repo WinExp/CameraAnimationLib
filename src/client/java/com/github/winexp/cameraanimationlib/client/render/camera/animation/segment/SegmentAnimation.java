@@ -56,7 +56,7 @@ public class SegmentAnimation implements Animation {
         Vec3d pos = this.prevPos.lerp(this.nextPos, tickDelta);
         camera.setPos(pos);
         Vec2f rotation = ModMathHelper.lerp(tickDelta, this.prevRotation, this.nextRotation);
-        camera.setRotation(rotation.y, rotation.x);
+        camera.setRotation(rotation.x, rotation.y);
     }
 
     @Override
